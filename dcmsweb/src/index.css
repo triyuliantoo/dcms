@@ -3,7 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* --- Global Styles Tetap --- */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -24,7 +23,7 @@ body {
   background-color: #f0f2f5;
 }
 
-/* === LOGIN PAGE OVERRIDE === */
+/* === Style override khusus login === */
 .login-page {
   all: unset;
   background-color: #f3f4f6 !important;
@@ -39,7 +38,7 @@ body {
   width: 100% !important;
 }
 
-.login-page img {
-  max-width: 48px !important;
-  max-height: 48px !important;
+.login-page input,
+.login-page button {
+  font-size: 1rem;
 }
