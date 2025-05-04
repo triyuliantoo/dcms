@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { logError, logInfo } from '../utils/logger';
+import LoginLayout from '../layouts/LoginLayout';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -25,25 +26,32 @@ const Login = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleLogin}>
+    <LoginLayout>
+      <h2 className="text-lg font-semibold text-center text-gray-800">Login</h2>
+      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+      <form onSubmit={handleLogin} className="space-y-4">
         <input
           type="text"
           placeholder="Username"
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={username}
           onChange={e => setUsername(e.target.value)}
-        /><br />
+        />
         <input
           type="password"
           placeholder="Password"
+          className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={password}
           onChange={e => setPassword(e.target.value)}
-        /><br />
-        <button type="submit">Login</button>
+        />
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+        >
+          Login
+        </button>
       </form>
-    </div>
+    </LoginLayout>
   );
 };
 

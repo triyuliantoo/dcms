@@ -1,8 +1,10 @@
-#root {
+/* File: dcmsweb/src/App.css */
+
+/* Tidak perlu style untuk #root global kecuali untuk dashboard */
+.dashboard-wrapper #root {
   max-width: 1280px;
-  margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  margin: 0 auto;
 }
 
 .logo {

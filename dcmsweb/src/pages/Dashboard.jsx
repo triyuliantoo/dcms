@@ -3,9 +3,9 @@ import React from 'react';
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="bg-white p-6 rounded-lg shadow-md">
       <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
-      <p>Welcome to the DCMS Dashboard.</p>
+      <p className="text-gray-600">Welcome to the DCMS Dashboard.</p>
     </div>
   );
 };
