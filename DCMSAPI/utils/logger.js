@@ -1,29 +1,18 @@
 // File: DCMSAPI/utils/logger.js
-const winston = require('winston');
-require('winston-daily-rotate-file');
+const fs = require('fs');
 const path = require('path');
 
-const logDir = path.join(__dirname, '..', 'logs');
+const logFile = path.join(__dirname, '../logs', `dcms-${new Date().toISOString().split('T')[0]}.log`);
 
-const transport = new winston.transports.DailyRotateFile({
-  filename: 'dcms-%DATE%.log',
-  dirname: logDir,
-  datePattern: 'YYYY-MM-DD',
-  zippedArchive: false,
-  maxSize: '10m',
-  maxFiles: '14d'
-});
+const log = (level, message) => {
+  const timestamp = new Date().toISOString();
+  const entry = `[${level.toUpperCase()}] ${timestamp}: ${message}`;
+  console.log(entry);
+  fs.appendFileSync(logFile, entry + '\n');
+};
 
-const logger = winston.createLogger({
-  level: 'info',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.printf(info => `${info.timestamp} [${info.level.toUpperCase()}]: ${info.message}`)
-  ),
-  transports: [
-    transport,
-    new winston.transports.Console({ format: winston.format.simple() })
-  ]
-});
-
-module.exports = logger;
+module.exports = {
+  info: (msg) => log('info', msg),
+  warn: (msg) => log('warn', msg),
+  error: (msg) => log('error', msg)
+};

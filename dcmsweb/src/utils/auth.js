@@ -1,16 +1,23 @@
-// File: dcmsweb/src/utils/auth.js
-export function isAuthenticated() {
-  const token = localStorage.getItem('token');
-  return !!token;
-}
+// File: src/utils/auth.js
+export const isAuthenticated = () => {
+  return !!localStorage.getItem('token');
+};
 
-export function getUserRoleId() {
+export const getUserFromToken = () => {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+
   try {
-    const token = localStorage.getItem('token');
-    if (!token) return null;
     const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.roleId;
-  } catch {
+    return {
+      userId: payload.userId,
+      roleId: payload.roleId,
+    };
+  } catch (e) {
     return null;
   }
-}
+};
+
+export const logout = () => {
+  localStorage.removeItem('token');
+};

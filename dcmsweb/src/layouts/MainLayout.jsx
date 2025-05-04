@@ -4,13 +4,11 @@ import Sidebar from '../components/Sidebar';
 
 const MainLayout = ({ children }) => {
   return (
-    <div style={{ display: 'flex', minHeight: '100vh' }}>
-      <div style={{ width: '250px' }}>
-        <Sidebar />
-      </div>
-      <div style={{ flex: 1, padding: '20px' }}>
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar />
+      <main className="flex-1 bg-gray-50 p-6 overflow-auto">
         {children}
-      </div>
+      </main>
     </div>
   );
 };

@@ -1,45 +1,47 @@
 // File: DCMSAPI/controllers/menuController.js
-const db = require('../models/db');
+const db = require('../models/db.js');
 const logger = require('../utils/logger');
 
 exports.getMenus = async (req, res) => {
   try {
-    const [rows] = await db.execute('SELECT * FROM Tbl_Menu');
-    res.json(rows);
-  } catch (err) {
-    logger.error(`getMenus failed: ${err.message}`);
-    res.status(500).json({ error: err.message });
+    const [menus] = await db.query('SELECT * FROM Tbl_Menu ORDER BY SortOrder');
+    res.json(menus);
+  } catch (error) {
+    logger.error('Error fetching all menus:', error);
+    res.status(500).json({ message: 'Failed to fetch menus' });
   }
 };
 
 exports.createMenu = async (req, res) => {
-  const { menuName, path, icon, parentId, isActive, sortOrder } = req.body;
+  const { MenuName, Path, Icon, ParentID, IsActive, SortOrder } = req.body;
   try {
-    await db.execute(
-      'INSERT INTO Tbl_Menu (MenuName, Path, Icon, ParentID, IsActive, SortOrder) VALUES (?, ?, ?, ?, ?, ?)',
-      [menuName, path, icon, parentId, isActive, sortOrder]
+    await db.query(
+      `INSERT INTO Tbl_Menu (MenuName, Path, Icon, ParentID, IsActive, SortOrder)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+      [MenuName, Path, Icon, ParentID, IsActive, SortOrder]
     );
-    logger.info(`Menu created: ${menuName}`);
-    res.json({ message: 'Menu created' });
-  } catch (err) {
-    logger.error(`createMenu failed: ${err.message}`);
-    res.status(500).json({ error: err.message });
+    logger.info(`Menu created: ${MenuName}`);
+    res.status(201).json({ message: 'Menu created successfully' });
+  } catch (error) {
+    logger.error('Error creating menu:', error);
+    res.status(500).json({ message: 'Failed to create menu' });
   }
 };
 
 exports.getMenusByRole = async (req, res) => {
   const { roleId } = req.params;
   try {
-    const [rows] = await db.execute(
-      `SELECT m.* FROM Tbl_Menu m
-       JOIN Tbl_RoleMenu rm ON m.MenuID = rm.MenuID
-       WHERE rm.RoleID = ? AND m.IsActive = 1`,
-      [roleId]
-    );
-    logger.info(`Menus fetched for role ${roleId}`);
-    res.json(rows);
-  } catch (err) {
-    logger.error(`getMenusByRole failed for role ${roleId}: ${err.message}`);
-    res.status(500).json({ error: err.message });
+    const [menus] = await db.query(`
+      SELECT m.MenuID, m.MenuName, m.Path, m.Icon, m.ParentID
+      FROM Tbl_Menu m
+      JOIN Tbl_RoleMenu rm ON m.MenuID = rm.MenuID
+      WHERE rm.RoleID = ? AND m.IsActive = 1
+      ORDER BY m.SortOrder
+    `, [roleId]);
+
+    res.json(menus);
+  } catch (error) {
+    logger.error(`Error fetching menus for role ${roleId}:`, error);
+    res.status(500).json({ message: 'Failed to fetch menus for role' });
   }
 };

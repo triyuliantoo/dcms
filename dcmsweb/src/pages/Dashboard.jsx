@@ -4,8 +4,8 @@ import React from 'react';
 const Dashboard = () => {
   return (
     <div>
-      <h2>Welcome to the Dashboard</h2>
-      <p>This is a sample dashboard page.</p>
+      <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
+      <p>Welcome to the DCMS Dashboard.</p>
     </div>
   );
 };
