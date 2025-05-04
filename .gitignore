@@ -1,0 +1,22 @@
+# Node modules (backend & frontend)
+DCMSAPI/node_modules/
+DCMSWEB/node_modules/
+
+# Environment config
+DCMSAPI/.env
+DCMSWEB/.env
+
+# Logs
+DCMSAPI/logs/
+DCMSAPI/*.log
+DCMSWEB/*.log
+
+# Build files
+DCMSWEB/dist/
+DCMSWEB/build/
+
+# OS / Editor junk
+*.DS_Store
+*.log
+.vscode/
+.idea/
